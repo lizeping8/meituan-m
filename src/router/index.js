@@ -1,0 +1,81 @@
+import { Toast } from "vant";
+import { createRouter,createWebHashHistory } from "vue-router";
+
+const router = createRouter({
+    history:createWebHashHistory(),
+    routes:[
+        {
+            path:'/home',
+            component:()=>import('../pages/myHome/MyHome.vue')
+        },
+        {
+            path:'/cart',
+            component:()=>import('../pages/myCart/MyCart.vue'),
+            meta:{
+                isAuth:true
+            }
+        },
+        {
+            path:'/order',
+            component:()=>import('../pages/myOrder/MyOrder.vue'),
+            meta:{
+                isAuth:true
+            }
+        },
+        {
+            path:'/mine',
+            component:()=>import('../pages/mine/Mine.vue'),
+            meta:{
+                isAuth:true
+            }
+        },
+        {
+            path:'/store',
+            component:()=>import('../pages/store/MyStore.vue')
+        },
+        {
+            path:'/createorder',
+            component:()=>import('../pages/createOrder/CreateOrder.vue')
+        },
+        {
+            path:'/address',
+            component:()=>import('../pages/address/Address.vue'),
+            meta:{
+                isAuth:true
+            }
+        },
+        {
+            path:'/addressedit',
+            component:()=>import('../pages/addressEdit/AddressEdit.vue'),
+            meta:{
+                isAuth:true
+            }
+        },
+        {
+            path:'/login',
+            component:()=>import('../pages/login/Login.vue'),
+        },
+        {
+            path:'/register',
+            component:()=>import('../pages/register/Register.vue'),
+        },
+        {
+            path:'/userinfoedit',
+            component:()=>import('../pages/userinfoedit/UserInfoEdit.vue')
+        },
+    ]
+})
+router.beforeEach((to,from,next)=>{
+    if(to.meta.isAuth){
+        if(localStorage.isLogin==='1'){
+            next()
+        }else{
+            Toast('请先登录')
+            router.push('./login')
+        }
+
+    }else{
+        next()
+    }
+})
+export default router
